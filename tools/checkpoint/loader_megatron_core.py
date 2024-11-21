@@ -4,7 +4,9 @@ import json
 import os
 import sys
 import types
-sys.path.append("/workspace/megatron")
+# sys.path.append("/workspace/megatron")
+sys.path.append("/workspace/datapool/data1/storage/xiwen/kashun/Pretrain-Data-Selection/Megatron-LM-NEO")
+
 import torch
 
 
@@ -16,7 +18,7 @@ def add_arguments(parser):
     group.add_argument('--vocab-file', type=str, default=None,
                        help='Path to the vocab file. If specified will use this to get vocab size and '
                        'trim padding from the embedding table.')
-    group.add_argument('--megatron-path', type=str, default=None,
+    group.add_argument('--megatron-path', type=str, default="/workspace/datapool/data1/storage/xiwen/kashun/Pretrain-Data-Selection/Megatron-LM-NEO/megatron",
                        help='Base directory of deepspeed repository')
 
 def _load_checkpoint(queue, args):

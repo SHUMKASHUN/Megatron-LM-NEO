@@ -21,7 +21,7 @@ def convert_megatron2hf(megatron_dir, hf_dir, hf_tokenizer_dir, use_bf16_convert
     --load-dir {megatron_dir} \
     --save-dir {hf_dir} \
     --hf-tokenizer-path {hf_tokenizer_dir} \
-    --megatron-path /workspace/megatron 
+    --megatron-path /workspace/datapool/data1/storage/xiwen/kashun/Pretrain-Data-Selection/Megatron-LM-NEO/megatron
     """
     print(cmd)
     start_time = time.time()
