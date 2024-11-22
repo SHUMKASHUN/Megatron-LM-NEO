@@ -4,7 +4,7 @@ name=$1
 merge_dir=$2${name}
 TRAIN_DATA_PATH=$3
 # Set the number of parallel processes you want to run
-num_processes=4
+num_processes=1
 if [ ! -d "./data/${name}" ]
 then
     echo "not exist"
