@@ -36,8 +36,8 @@ MASTER_PORT=8874
 WORLD_SIZE=$(($GPUS_PER_NODE*$NNODES))
 
 export DP_SIZE=$((WORLD_SIZE / PP_SIZE / TP_SIZE))
-export MICRO_BATCH=${MICRO_BATCH:-8}
-export GRAD_ACC_STEPS=${GRAD_ACC_STEPS:-2}
+export MICRO_BATCH=${MICRO_BATCH:-4}
+export GRAD_ACC_STEPS=${GRAD_ACC_STEPS:-4}
 export GLOBAL_BATCH=$((DP_SIZE * MICRO_BATCH * GRAD_ACC_STEPS))
 
 echo "[pretrain], GPUS_PER_NODE: $GPUS_PER_NODE"
@@ -54,13 +54,13 @@ DISTRIBUTED_ARGS="
     --master_port $MASTER_PORT \
 "
 
-export FFN_HIDDEN_SIZE=${FFN_HIDDEN_SIZE:-8192}
+export FFN_HIDDEN_SIZE=${FFN_HIDDEN_SIZE:-12288}
 
     # --kv_channels 256 \
 NEO_MODELING_ARGS="
     --use-mcore-models \
     --num-layers 12 \
-    --hidden-size 1024 \
+    --hidden-size 1536 \
     --ffn-hidden-size ${FFN_HIDDEN_SIZE} \
     --num-attention-heads 8 \
     --max-position-embeddings 4096 \
@@ -84,8 +84,8 @@ NEO_HYPER_PARAM_ARGS="
     --bf16 \
     --eod-mask-loss \
     --norm-epsilon 1e-5 \
-    --lr 2e-4 \
-    --min-lr 2e-5 \
+    --lr 3e-3 \
+    --min-lr 3e-4 \
     --lr-decay-style cosine \
     --lr-warmup-iters 50 \
     --clip-grad 1.0 \
@@ -106,8 +106,8 @@ NEO_TRAINING_ARGS="
     --sequence-parallel \
     --use-distributed-optimizer \
     --optimizer adam \
-    --train-iters ${TRAIN_ITERS:-9000} \
-    --exit-interval ${EXIT_ITERS:-${TRAIN_ITERS:-9000}}
+    --train-iters ${TRAIN_ITERS:-30000} \
+    --exit-interval ${EXIT_ITERS:-${TRAIN_ITERS:-30000}}
 "
 
 echo "[pretrain], begin..."
@@ -121,7 +121,7 @@ TASK_ID=${TASK_ID:-"Pretrain"}
 FASTTEXT_EXP_NAME=$3
 MERGED_DATA_NAME=$4
 
-JOB_NAME=400M-${FASTTEXT_EXP_NAME}_nl${NUM_LAYERS}_tp${TP_SIZE}_pp${PP_SIZE}_mb${MICRO_BATCH}_gb${GLOBAL_BATCH}_gas${GRAD_ACC_STEPS}
+JOB_NAME=1B-${FASTTEXT_EXP_NAME}_nl${NUM_LAYERS}_tp${TP_SIZE}_pp${PP_SIZE}_mb${MICRO_BATCH}_gb${GLOBAL_BATCH}_gas${GRAD_ACC_STEPS}
 OUTPUT_HOME="/workspace/datapool/data1/storage/xiwen/kashun/checkpoints/$JOB_NAME/$TASK_ID"
 CHECKPOINT_PATH="${OUTPUT_HOME}/checkpoint/"
 WANDB_PATH="${OUTPUT_HOME}/"
@@ -159,7 +159,7 @@ CHECKPOINT_ARGS="
     $load_args
 "
 
-export WANDB_PROJECT=${WANDB_PROJECT:-"pretrain_400m"}
+export WANDB_PROJECT=${WANDB_PROJECT:-"pretrain_1B"}
 export WANDB_EXP_NAME=${WANDB_EXP_NAME:-${TASK_ID}_${JOB_NAME}}
 
 WANDB_ARGS="
@@ -168,7 +168,7 @@ WANDB_ARGS="
     --wandb-save-dir ${WANDB_PATH} \
 "
 
-export SAVE_INTERVAL=${SAVE_INTERVAL:-1000}
+export SAVE_INTERVAL=${SAVE_INTERVAL:-3000}
 
 NEO_OUTPUT_ARGS="
     --log-interval 1 \
