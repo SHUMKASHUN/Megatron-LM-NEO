@@ -84,8 +84,8 @@ NEO_HYPER_PARAM_ARGS="
     --bf16 \
     --eod-mask-loss \
     --norm-epsilon 1e-5 \
-    --lr 3e-3 \
-    --min-lr 3e-4 \
+    --lr 2e-4 \
+    --min-lr 2e-5 \
     --lr-decay-style cosine \
     --lr-warmup-iters 50 \
     --clip-grad 1.0 \
