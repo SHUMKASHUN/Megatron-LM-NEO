@@ -1,10 +1,10 @@
 #!/bin/bash
 
 name=$1
-merge_dir=$2${name}
+merge_dir=$2
 TRAIN_DATA_PATH=$3
 # Set the number of parallel processes you want to run
-num_processes=1
+num_processes=4
 if [ ! -d "./data/${name}" ]
 then
     echo "not exist"
@@ -23,19 +23,19 @@ find "$merge_dir" -maxdepth 1 -type f -name "*.json*" | xargs -P "$num_processes
         prefixfile=${prefixfile##*/}
         recovered_dir=${file%/*}
         echo "Processing $prefixfile"
+        newname=${recovered_dir##*/}
         python tools/preprocess_data.py \
                    --input $recovered_dir/$prefixfile.jsonl \
-                   --output-prefix $prefixfile \
+                   --output-prefix ${prefixfile}_${newname} \
                    --tokenizer-model neo/tokenizer.model \
                    --tokenizer-type SentencePieceTokenizer \
                    --keep-sequential-samples \
                    --append-eod \
                    --workers 32 \
                    --json-keys "text"
-        newname=${recovered_dir##*/}
         echo $newname
-        mv ./${prefixfile}_text_document.bin ./data/${newname}/
-        mv ./${prefixfile}_text_document.idx ./data/${newname}/
+        mv ./${prefixfile}_${newname}_text_document.bin ./data/${newname}/
+        mv ./${prefixfile}_${newname}_text_document.idx ./data/${newname}/
 
         echo "Finished processing $prefixfile"
 

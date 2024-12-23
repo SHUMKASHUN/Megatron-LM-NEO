@@ -8,9 +8,9 @@ export PYTHONPATH=$PYTHONPATH:$MEGATRON_DIR
 echo $PYTHONPATH
 # export NCCL_SOCKET_IFNAME='ib'
 # export GLOO_SOCKET_IFNAME='ib'
-export NCCL_IB_DISABLE=1
-export NCCL_P2P_DISABLE=0
-export NCCL_SOCKET_IFNAME=ib
+# export NCCL_IB_DISABLE=1
+# export NCCL_P2P_DISABLE=0
+# export NCCL_SOCKET_IFNAME=ib
 #export OMP_NUM_THREADS=1
 # export NCCL_IB_HCA=mlx5
 export CUDA_DEVICE_MAX_CONNECTIONS=1
@@ -28,7 +28,7 @@ export TORCH_DISTRIBUTED_DETAIL=DEBUG
 export TP_SIZE=${TP_SIZE:-1}
 export PP_SIZE=${PP_SIZE:-1}
 GPUS_PER_NODE=8
-NNODES=2
+NNODES=1
 NODE_RANK=$1
 MASTER_ADDR=$2
 MASTER_PORT=8874
@@ -37,7 +37,7 @@ WORLD_SIZE=$(($GPUS_PER_NODE*$NNODES))
 
 export DP_SIZE=$((WORLD_SIZE / PP_SIZE / TP_SIZE))
 export MICRO_BATCH=${MICRO_BATCH:-8}
-export GRAD_ACC_STEPS=${GRAD_ACC_STEPS:-2}
+export GRAD_ACC_STEPS=${GRAD_ACC_STEPS:-4}
 export GLOBAL_BATCH=$((DP_SIZE * MICRO_BATCH * GRAD_ACC_STEPS))
 
 echo "[pretrain], GPUS_PER_NODE: $GPUS_PER_NODE"
@@ -106,8 +106,8 @@ NEO_TRAINING_ARGS="
     --sequence-parallel \
     --use-distributed-optimizer \
     --optimizer adam \
-    --train-iters ${TRAIN_ITERS:-9000} \
-    --exit-interval ${EXIT_ITERS:-${TRAIN_ITERS:-9000}}
+    --train-iters ${TRAIN_ITERS:-8000} \
+    --exit-interval ${EXIT_ITERS:-${TRAIN_ITERS:-8000}}
 "
 
 echo "[pretrain], begin..."
@@ -120,9 +120,10 @@ TASK_ID=${TASK_ID:-"Pretrain"}
 
 FASTTEXT_EXP_NAME=$3
 MERGED_DATA_NAME=$4
+OUTPUT_HOME_PREFIX=$5
 
 JOB_NAME=400M-${FASTTEXT_EXP_NAME}_nl${NUM_LAYERS}_tp${TP_SIZE}_pp${PP_SIZE}_mb${MICRO_BATCH}_gb${GLOBAL_BATCH}_gas${GRAD_ACC_STEPS}
-OUTPUT_HOME="/workspace/datapool/data1/storage/xiwen/kashun/checkpoints/$JOB_NAME/$TASK_ID"
+OUTPUT_HOME=${OUTPUT_HOME_PREFIX}/checkpoints/${JOB_NAME}/${TASK_ID}
 CHECKPOINT_PATH="${OUTPUT_HOME}/checkpoint/"
 WANDB_PATH="${OUTPUT_HOME}/"
 # LOAD_PATH="/workspace/university/checkpoints/400M-dclm_6_model_pos_0_neg_mismatch_4_domaincount_40-merge_nl_tp1_pp1_mb4_gb128_gas2/Pretrain/checkpoint/"
