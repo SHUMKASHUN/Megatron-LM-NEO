@@ -5,7 +5,7 @@ import os
 import sys
 import types
 # sys.path.append("/workspace/megatron")
-sys.path.append("/workspace/datapool/data1/storage/xiwen/kashun/Pretrain-Data-Selection/Megatron-LM-NEO")
+sys.path.append("opt/tiger/Pretrain-Data-Selection/Megatron-LM-NEO")
 
 import torch
 
