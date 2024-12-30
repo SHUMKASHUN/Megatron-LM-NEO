@@ -4,7 +4,7 @@ import os, sys, torch, torch.multiprocessing as mp
 from transformers import AutoModelForCausalLM, LlamaConfig, AutoTokenizer
 from contextlib import contextmanager
 sys.path.append("/workspace/megatron")
-sys.path.append("opt/tiger/Pretrain-Data-Selection/Megatron-LM-NEO/megatron")
+sys.path.append("/opt/tiger/Pretrain-Data-Selection/Megatron-LM-NEO/megatron")
 
 
 def add_arguments(parser):
