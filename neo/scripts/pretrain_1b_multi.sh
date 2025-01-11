@@ -130,7 +130,7 @@ CHECKPOINT_PATH="${OUTPUT_HOME}/checkpoint/"
 WANDB_PATH=$6
 # LOAD_PATH="/workspace/university/checkpoints/400M-dclm_6_model_pos_0_neg_mismatch_4_domaincount_40-merge_nl_tp1_pp1_mb4_gb128_gas2/Pretrain/checkpoint/"
 #export DATA_PATH=$(echo "${DATA_PATH}" | base64 --decode)
-export DATA_PATH=${DATA_PATH:-"${OUTPUT_HOME_PREFIX}/data/${MERGED_DATA_NAME}/${MERGED_DATA_NAME}"}
+export DATA_PATH=${DATA_PATH:-"data/${MERGED_DATA_NAME}/${MERGED_DATA_NAME}"}
 # export DATA_CACHE_PATH=${DATA_CACHE_PATH:-"null"}
 export TOKENIZER_MODEL_PATH=${TOKENIZER_MODEL_PATH:-"neo/tokenizer.model"}
 
