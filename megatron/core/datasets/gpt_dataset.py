@@ -228,17 +228,10 @@ class GPTDataset(MegatronDataset):
         TODO: Explain the 80% threshold
         """
         path_to_cache = self.config.path_to_cache
-        # if path_to_cache is None:
-        #     path_to_cache = os.path.join(
-        #         self.indexed_dataset.path_prefix, "cache", f"{type(self).__name__}_indices"
-        #     )
-        import os
-        temp_hdfs_path_var = os.getenv("HDFS_PATH")
-        fasttext_name = os.getenv("FASTTEXT_NAME")
-        varient_name = os.getenv("VARIENT_NAME")
-        path_to_cache = os.path.join(
-            temp_hdfs_path_var,"data",f"1B-{fasttext_name}{varient_name}-merge",f"1B-{fasttext_name}{varient_name}-merge","cache", f"{type(self).__name__}_indices"
-        )
+        if path_to_cache is None:
+            path_to_cache = os.path.join(
+                self.indexed_dataset.path_prefix, "cache", f"{type(self).__name__}_indices"
+            )
 
         get_path_to = lambda suffix: os.path.join(
             path_to_cache, f"{self.unique_description_hash}-{type(self).__name__}-{suffix}"
