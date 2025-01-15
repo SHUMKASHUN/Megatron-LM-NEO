@@ -48,6 +48,7 @@ find "$merge_dir" -maxdepth 1 -type f -name "*.json*" | xargs -P "$num_processes
 echo "All files processed"
 
 INPUTPATH=${name}
+OUTPUT_PREFIX=$4
 OUTPUTPATH="${name}-merge"
 if [ ! -d "./data/${OUTPUTPATH}" ]
 then
@@ -56,5 +57,5 @@ then
 else
     echo "exist"
 fi;
-python tools/merge_datasets.py --input ${TRAIN_DATA_PATH}$INPUTPATH --output-prefix ${TRAIN_DATA_PATH}$OUTPUTPATH/$OUTPUTPATH
+python tools/merge_datasets.py --input ${TRAIN_DATA_PATH}$INPUTPATH --output-prefix ${OUTPUT_PREFIX}$OUTPUTPATH/$OUTPUTPATH
 python tools/count_mmap_token.py --mmap_path ${TRAIN_DATA_PATH}$OUTPUTPATH/$OUTPUTPATH
