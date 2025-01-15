@@ -9,6 +9,7 @@ if [ ! -d "./data/${name}" ]
 then
     echo "not exist"
     mkdir -p ./data/${name}
+    mkdir -p /mnt/hdfs/byte_tiktok_aiic/user/huangyuzhen/data_selection/data/${name}
 else
     echo "exist"
 fi;
@@ -34,8 +35,8 @@ find "$merge_dir" -maxdepth 1 -type f -name "*.json*" | xargs -P "$num_processes
                    --workers 32 \
                    --json-keys "text"
         echo $newname
-        mv ./${prefixfile}_${newname}_text_document.bin ./data/${newname}/
-        mv ./${prefixfile}_${newname}_text_document.idx ./data/${newname}/
+        mv ./${prefixfile}_${newname}_text_document.bin /mnt/hdfs/byte_tiktok_aiic/user/huangyuzhen/data_selection/data/${newname}/
+        mv ./${prefixfile}_${newname}_text_document.idx /mnt/hdfs/byte_tiktok_aiic/user/huangyuzhen/data_selection/data/${newname}/
 
         echo "Finished processing $prefixfile"
 
@@ -57,5 +58,5 @@ then
 else
     echo "exist"
 fi;
-python tools/merge_datasets.py --input ${TRAIN_DATA_PATH}$INPUTPATH --output-prefix ${OUTPUT_PREFIX}$OUTPUTPATH/$OUTPUTPATH
+python tools/merge_datasets.py --input ${OUTPUT_PREFIX}$INPUTPATH --output-prefix ${OUTPUT_PREFIX}$OUTPUTPATH/$OUTPUTPATH
 python tools/count_mmap_token.py --mmap_path ${TRAIN_DATA_PATH}$OUTPUTPATH/$OUTPUTPATH
