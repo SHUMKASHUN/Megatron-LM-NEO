@@ -9,7 +9,7 @@ if [ ! -d "./data/${name}" ]
 then
     echo "not exist"
     mkdir -p ./data/${name}
-    mkdir -p /mnt/hdfs/byte_tiktok_aiic/user/huangyuzhen/data_selection/data/${name}
+    mkdir -p /mnt/hdfs/byte_data_seed_azureb_tteng/user/huangyuzhen/data_selection/data/${name}
 else
     echo "exist"
 fi;
@@ -35,8 +35,8 @@ fi;
 #                    --workers 32 \
 #                    --json-keys "text"
 #         echo $newname
-#         mv ./${prefixfile}_${newname}_text_document.bin /mnt/hdfs/byte_tiktok_aiic/user/huangyuzhen/data_selection/data/${newname}/
-#         mv ./${prefixfile}_${newname}_text_document.idx /mnt/hdfs/byte_tiktok_aiic/user/huangyuzhen/data_selection/data/${newname}/
+#         mv ./${prefixfile}_${newname}_text_document.bin /mnt/hdfs/byte_data_seed_azureb_tteng/user/huangyuzhen/data_selection/data/${newname}/
+#         mv ./${prefixfile}_${newname}_text_document.idx /mnt/hdfs/byte_data_seed_azureb_tteng/user/huangyuzhen/data_selection/data/${newname}/
 
 #         echo "Finished processing $prefixfile"
 
@@ -51,10 +51,10 @@ echo "All files processed"
 INPUTPATH=${name}
 OUTPUT_PREFIX=$4
 OUTPUTPATH="${name}-merge"
-if [ ! -d "/mnt/hdfs/byte_tiktok_aiic/user/huangyuzhen/data_selection/data/${OUTPUTPATH}" ]
+if [ ! -d "/mnt/hdfs/byte_data_seed_azureb_tteng/user/huangyuzhen/data_selection/data/${OUTPUTPATH}" ]
 then
     echo "not exist"
-    mkdir -p /mnt/hdfs/byte_tiktok_aiic/user/huangyuzhen/data_selection/data/${OUTPUTPATH}
+    mkdir -p /mnt/hdfs/byte_data_seed_azureb_tteng/user/huangyuzhen/data_selection/data/${OUTPUTPATH}
 else
     echo "exist"
 fi;
